@@ -1,32 +1,44 @@
 {
     "output": "results.json",
-    "blocks": 100000,
-    "seed": 120,
+    "blocks": 1000,
+    "seed": 0,
     "network_difficulty": 10000,
     "pools": [{
         "uncle_block_prob": 0.0,
         "difficulty": 10,
         "reward_scheme": {
-            "type": "pplns",
+            "type": "pps",
             "params": {
-                "n": 200,
-                "pool_fee": 0
+                "pool_fee": 0.05
             }
         },
         "miners": [{
-            "generator": "csv",
+            "generator": "random",
             "params": {
                 "behavior": {"name": "default"},
-                "path": "tests/fixtures/sample_miners.csv"
+                "hashrate": {
+                    "distribution": "normal",
+                    "params": {
+                        "mean": 10.0,
+                        "stddev": 2.0,
+                        "minimum": 0.1,
+                        "maximum": 40.0
+                    }
+                },
+                "stop_condition": {
+                    "type": "total_hashrate",
+                    "params": {"value": 100}
+                }
             }
         }]
     }, {
         "uncle_block_prob": 0.0,
         "difficulty": 20,
         "reward_scheme": {
-            "type": "qb",
+            "type": "pplns",
             "params": {
-                "pool_fee": 0.05
+                "n": 200,
+                "pool_fee": 0
             }
         },
         "miners": [{

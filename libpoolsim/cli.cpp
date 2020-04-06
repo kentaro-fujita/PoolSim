@@ -18,6 +18,8 @@ Cli::Cli() {
     app->add_option("-c,--config", args->config_filepath, "configuration file")
        ->required()
        ->check(CLI::ExistingFile);
+    app->add_option("-s,--seed", args->seed, "random seed value")
+        ->required();
     app->add_flag("--debug", args->debug, "enable debug logs");
 }
 
@@ -29,7 +31,7 @@ int Cli::run(int argc, char* argv[]) {
         spdlog::set_level(spdlog::level::debug);
     }
 
-    auto simulator = Simulator::from_config_file(args->config_filepath);
+    auto simulator = Simulator::from_config_file(args->config_filepath, args->seed);
     simulator->run();
 
     simulator->save_simulation_data();

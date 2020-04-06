@@ -33,9 +33,9 @@ Simulator::Simulator(Simulation _simulation, std::shared_ptr<Random> _random)
     : simulation(_simulation), network(std::make_shared<Network>(_simulation.network_difficulty)),
       random(_random) {}
 
-std::shared_ptr<Simulator> Simulator::from_config_file(const std::string& filepath) {
+std::shared_ptr<Simulator> Simulator::from_config_file(const std::string& filepath, const int seed) {
     auto simulation = Simulation::from_config_file(filepath);
-    SystemRandom::initialize(simulation.seed);
+    SystemRandom::initialize(seed);
     spdlog::debug("initialized random with seed {}", simulation.seed);
 
     return  std::shared_ptr<Simulator>(new Simulator(simulation));
